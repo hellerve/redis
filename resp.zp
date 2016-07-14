@@ -1,0 +1,58 @@
+(module "resp"
+  (export
+    `("encode" ,encode)
+    `("decode" ,decode))
+
+  (REDIS-SEP "\r\n")
+
+  (redis-string (lambda (obj)
+    (++ obj REDIS-SEP)))
+
+  (encode (lambda (obj)
+    (cond
+      ((string? obj) (encode-string obj))
+      ((byte-vector? obj) (encode-string (byte-vector->string obj)))
+      ((or (list? obj) (vector? obj)) (encode-array obj))
+      ((integer? obj) (encode-integer obj))
+      (else ""))))
+
+  (encode-integer (lambda (obj)
+    (redis-string (++ ":" (->string obj)))))
+
+  (encode-array (lambda (obj)
+    (++ (redis-string (++ "*" (->string (length obj))))
+        (apply ++ (for-each encode obj)))))
+
+  (encode-string (lambda (obj)
+    (++ (redis-string (++ "$" (->string (length obj))))
+        (redis-string obj))))
+
+  (decode (lambda (obj)
+    (if (null? obj)
+      obj
+      (case (car obj)
+        ((#\+) (decode-simple-string (cdr obj)))
+        ((#\-) (decode-error (cdr obj)))
+        ((#\$) (decode-bulk-string (cdr obj)))
+        ((#\:) (decode-integer (cdr obj)))
+        ((#\*) (decode-array (cdr obj)))
+        (else "")))))
+
+  (strip-redis-string (lambda (obj)
+    (car (strip-redis-strings obj))))
+
+  (strip-redis-strings (lambda (obj)
+    (string:split obj REDIS-SEP)))
+
+  (decode-simple-string strip-redis-string)
+
+  (decode-error strip-redis-string)
+
+  (decode-integer (compose string->integer strip-redis-string))
+
+  (decode-bulk-string (lambda (obj) "it does not do length-checking!"
+    (cadr (strip-redis-strings obj))))
+
+  (decode-array (lambda (obj) "it does not do length-checking!"
+    (for-each (lambda (elem) (decode (++ elem REDIS-SEP)))
+              (cdr (strip-redis-strings obj))))))
