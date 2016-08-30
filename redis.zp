@@ -9,19 +9,39 @@
 
 (defkeywords (redis:new) (:ip :default "127.0.0.1"
                           :port :default 6379)
-  "create a new redis server instance"
+  "create a new redis server instance.
+
+   params:
+    - args: keyword args (:ip, default <zepto>\"127.0.0.1\"<zepto>; :port, default <zepto>6379</zepto>
+   complexity: O(1)
+   returns: a redis server instance"
   (let ((s (net:socket "stream")))
     (begin
       (net:connect s (net:get-addr-info ip (->string port)))
       (redis:make-redis ip port s))))
 
 (define (redis:send-command redis command . args)
+  "sends <par>command</par> to the server <par>redis</par>.
+   All other arguments will be encoded and piped through.
+
+   params:
+    - redis: a redis server instance as created by <fun>redis:new</fun>
+    - command: the command string (e.g. <zepto>\"PING\"</zepto>)
+    - args: the rest of the arguments (as varargs)
+   complexity: O(n)
+   returns: the result of sending through the socket"
   (let ((send (lambda (a) (net:send (redis:get-socket redis) (string->byte-vector a)))))
     (if (null? args)
       (send (++ command "\r\n"))
       (send (resp:encode (++ (list command) args))))))
 
 (define (redis:get-response redis)
+  "get a response from the server <par>redis</par>.
+
+   params:
+    - redis: a redis server instance as created by <fun>redis:new</fun>
+   complexity: O(n) where n is the size of the response
+   returns: the decoded response"
   (let loop ((res b{}))
     (if (eq? (mod (length res) 1024) 0)
       (loop (++ res (net:recv (redis:get-socket redis) (make-small 1024))))
@@ -32,6 +52,14 @@
     ((_ cmd)
       (with-environment env
         (eval `(define (,(string->symbol (++ "redis:" (->string 'cmd))) redis)
+          ,(++ "sends a " (->string 'cmd) " to the server <par>redis</par>.
+                For a description of the command, please look <a href=\"http://redis.io/commands/"
+                (->string 'cmd) "\">here</a>.
+
+                params:
+                 - redis: the redis server
+                complexity: the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun>
+                returns: the result of <fun>redis:get-response</fun>")
           (begin
             (redis:send-command redis ,(string:upper-case (->string 'cmd)))
             (redis:get-response redis))) env)))
@@ -39,6 +67,14 @@
       (with-environment env
         (eval
           `(define ,(++ [] (string->symbol (++ "redis:" (->string 'cmd))) 'redis 'args)
+            ,(++ "sends a " (->string 'cmd) " to the server <par>redis</par>.
+                  For a description of the command, please look <a href=\"http://redis.io/commands/"
+                  (->string 'cmd) "\">here</a>.
+
+                  params:
+                   - redis: the redis server
+                  complexity: the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun>
+                  returns: the result of <fun>redis:get-response</fun>")
             (begin
               ,(++ [] 'redis:send-command 'redis (string:upper-case (->string 'cmd)) 'args)
               (redis:get-response redis))) env)))))
@@ -151,38 +187,87 @@
 ; special cases
 
 (define (redis:ping redis . msg)
+  "sends a ping to the server <par>redis</par>.
+   For a description of the command, please look <a href=\"http://redis.io/commands/ping\">here</a>.
+
+   params:
+    - redis: the redis server
+   complexity: the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun>
+   returns: the result of <fun>redis:get-response</fun>"
   (begin
     (apply redis:send-command (++ [] redis "PING" msg))
     (redis:get-response redis)))
 
 (define (redis:lpush redis key value)
+  "sends a lpush to the server <par>redis</par>.
+   For a description of the command, please look <a href=\"http://redis.io/commands/ping\">here</a>.
+
+   params:
+    - redis: the redis server
+   complexity: the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun>
+   returns: the result of <fun>redis:get-response</fun>"
   (begin
     (redis:send-command redis "LPUSH" (++ [] key value))
     (redis:get-response redis)))
 
 (define (redis:rpush redis key value)
+  "sends a rpush to the server <par>redis</par>.
+   For a description of the command, please look <a href=\"http://redis.io/commands/ping\">here</a>.
+
+   params:
+    - redis: the redis server
+   complexity: the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun>
+   returns: the result of <fun>redis:get-response</fun>"
   (begin
     (redis:send-command redis "RPUSH" (++ [] key value))
     (redis:get-response redis)))
 
 (defkeywords (bitcount redis key) (:start :default "0"
                                    :end :default (->string (length key)))
+  "sends a bitcount to the server <par>redis</par>.
+   For a description of the command, please look <a href=\"http://redis.io/commands/ping\">here</a>.
+
+   params:
+    - redis: the redis server
+   complexity: the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun>
+   returns: the result of <fun>redis:get-response</fun>"
   (begin
     (redis:send-command redis "BITCOUNT" (++ [] key start end))
     (redis:get-response redis)))
 
 (define (bitop operation destkey . keys)
+  "sends a bitop to the server <par>redis</par>.
+   For a description of the command, please look <a href=\"http://redis.io/commands/ping\">here</a>.
+
+   params:
+    - redis: the redis server
+   complexity: the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun>
+   returns: the result of <fun>redis:get-response</fun>"
   (begin
     (redis:send-command redis "BITOP" (++ [] operation destkey keys))
     (redis:get-response redis)))
 
 (defkeywords (redis:bitpos redis key bit) (:start :default (list)
                                            :end :default (list))
+  "sends a bitpos to the server <par>redis</par>.
+   For a description of the command, please look <a href=\"http://redis.io/commands/ping\">here</a>.
+
+   params:
+    - redis: the redis server
+   complexity: the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun>
+   returns: the result of <fun>redis:get-response</fun>"
   (begin
     (redis:send-command redis "BITPOS" (++ [] key bit start end))
     (redis:get-response redis)))
 
 (defkeywords (redis:object redis subcommand) (:args :default ())
+  "sends a object to the server <par>redis</par>.
+   For a description of the command, please look <a href=\"http://redis.io/commands/ping\">here</a>.
+
+   params:
+    - redis: the redis server
+   complexity: the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun>
+   returns: the result of <fun>redis:get-response</fun>"
   (begin
     (redis:send-command redis "OBJECT" (++ [] subcommand args))
     (redis:get-response redis)))

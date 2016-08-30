@@ -1,0 +1,2630 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* http://prismjs.com/download.html?themes=prism&languages=scheme */
+      /**
+       * prism.js default theme for JavaScript, CSS and HTML
+       * Based on dabblet (http://dabblet.com)
+       * @author Lea Verou
+       */
+
+      code[class*="language-"],
+      pre[class*="language-"] {
+        color: black;
+        background: none;
+        text-shadow: 0 1px white;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.5;
+
+        -moz-tab-size: 4;
+        -o-tab-size: 4;
+        tab-size: 4;
+
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+      }
+
+      pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+      code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+        text-shadow: none;
+        background: #b3d4fc;
+      }
+
+      pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+      code[class*="language-"]::selection, code[class*="language-"] ::selection {
+        text-shadow: none;
+        background: #b3d4fc;
+      }
+
+      @media print {
+        code[class*="language-"],
+        pre[class*="language-"] {
+          text-shadow: none;
+        }
+      }
+
+      /* Code blocks */
+      pre[class*="language-"] {
+        padding: 1em;
+        margin: .5em 0;
+        overflow: auto;
+      }
+
+      :not(pre) > code[class*="language-"],
+      pre[class*="language-"] {
+        background: #f5f2f0;
+      }
+
+      /* Inline code */
+      :not(pre) > code[class*="language-"] {
+        padding: .1em;
+        border-radius: .3em;
+        white-space: normal;
+      }
+
+      .token.comment,
+      .token.prolog,
+      .token.doctype,
+      .token.cdata {
+        color: slategray;
+      }
+
+      .token.punctuation {
+        color: #999;
+      }
+
+      .namespace {
+        opacity: .7;
+      }
+
+      .token.property,
+      .token.tag,
+      .token.boolean,
+      .token.number,
+      .token.constant,
+      .token.symbol,
+      .token.deleted {
+        color: #905;
+      }
+
+      .token.selector,
+      .token.attr-name,
+      .token.string,
+      .token.char,
+      .token.builtin,
+      .token.inserted {
+        color: #690;
+      }
+
+      .token.operator,
+      .token.entity,
+      .token.url,
+      .language-css .token.string,
+      .style .token.string {
+        color: #a67f59;
+        background: hsla(0, 0%, 100%, .5);
+      }
+
+      .token.atrule,
+      .token.attr-value,
+      .token.keyword {
+        color: #07a;
+      }
+
+      .token.function {
+        color: #DD4A68;
+      }
+
+      .token.regex,
+      .token.important,
+      .token.variable {
+        color: #e90;
+      }
+
+      .token.important,
+      .token.bold {
+        font-weight: bold;
+      }
+      .token.italic {
+        font-style: italic;
+      }
+
+      .token.entity {
+        cursor: help;
+      }
+
+    </style>
+    <style>
+      html{
+        height: 100%;
+      }
+      body{
+        font-family: sans-serif;
+        font-weight: 300;
+        height: 100%;
+      }
+      a {
+        color: #666;
+        text-decoration: none;
+      }
+      a:hover{
+        color: #000;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 300;
+      }
+      h2 {
+        font-size: 25px;
+        font-weight: 300;
+      }
+      h3 {
+        font-size: 18px;
+        font-weight: 300;
+      }
+      h4 {
+        font-size: 17px;
+        font-weight: 300;
+      }
+      #fancy-search {
+        border-width: medium medium 1px 1px;
+        border-style: none none solid solid;
+        border-color: #D3D3D3;
+        border-image: none;
+        font-size: 14px;
+        font-style: italic;
+        color: #808080;
+        width: 25em;
+        padding-bottom: 0.3em;
+        margin-top: 2em;
+        margin-bottom: 2em;
+      }
+      #nav{
+        float: left;
+        width: 200px;
+        padding-left: 50px;
+        height: 100%;
+        padding-right: 1em;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        overflow-x: scroll;
+        
+      }
+      #nav ul{
+        list-style: none;
+      }
+      #nav h4 {
+        margin-bottom: 0px;
+      }
+      #docs{
+        padding-left: 50px;
+        margin-left: 260px;
+      }
+      .name{
+        margin: 0;
+      }
+      .fun{
+        padding-left: 10px;
+        margin-bottom: 2em;
+      }
+      .fun a {
+        color: #55c;
+      }
+      .a-little-right {
+        padding-left: 1em;
+      }
+      .signature{
+        margin: 3px;
+        color: darkgrey;
+        margin-left: 1em;
+        font-size: 15px;
+      }
+      .description, .param{
+        margin-left: 0.5em;
+      }
+      .nav-contents{
+      }
+      .hidden {
+        display: none;
+      }
+      .clickr {
+        font-size: 12px;
+        cursor: pointer;
+      }
+    </style>
+    <script>
+      var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(){var e=/\blang(?:uage)?-(\w+)\b/i,t=0,n=_self.Prism={util:{encode:function(e){return e instanceof a?new a(e.type,n.util.encode(e.content),e.alias):"Array"===n.util.type(e)?e.map(n.util.encode):e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1]},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++t}),e.__id},clone:function(e){var t=n.util.type(e);switch(t){case"Object":var a={};for(var r in e)e.hasOwnProperty(r)&&(a[r]=n.util.clone(e[r]));return a;case"Array":return e.map&&e.map(function(e){return n.util.clone(e)})}return e}},languages:{extend:function(e,t){var a=n.util.clone(n.languages[e]);for(var r in t)a[r]=t[r];return a},insertBefore:function(e,t,a,r){r=r||n.languages;var i=r[e];if(2==arguments.length){a=arguments[1];for(var l in a)a.hasOwnProperty(l)&&(i[l]=a[l]);return i}var o={};for(var s in i)if(i.hasOwnProperty(s)){if(s==t)for(var l in a)a.hasOwnProperty(l)&&(o[l]=a[l]);o[s]=i[s]}return n.languages.DFS(n.languages,function(t,n){n===r[e]&&t!=e&&(this[t]=o)}),r[e]=o},DFS:function(e,t,a,r){r=r||{};for(var i in e)e.hasOwnProperty(i)&&(t.call(e,i,e[i],a||i),"Object"!==n.util.type(e[i])||r[n.util.objId(e[i])]?"Array"!==n.util.type(e[i])||r[n.util.objId(e[i])]||(r[n.util.objId(e[i])]=!0,n.languages.DFS(e[i],t,i,r)):(r[n.util.objId(e[i])]=!0,n.languages.DFS(e[i],t,null,r)))}},plugins:{},highlightAll:function(e,t){var a={callback:t,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};n.hooks.run("before-highlightall",a);for(var r,i=a.elements||document.querySelectorAll(a.selector),l=0;r=i[l++];)n.highlightElement(r,e===!0,a.callback)},highlightElement:function(t,a,r){for(var i,l,o=t;o&&!e.test(o.className);)o=o.parentNode;o&&(i=(o.className.match(e)||[,""])[1].toLowerCase(),l=n.languages[i]),t.className=t.className.replace(e,"").replace(/\s+/g," ")+" language-"+i,o=t.parentNode,/pre/i.test(o.nodeName)&&(o.className=o.className.replace(e,"").replace(/\s+/g," ")+" language-"+i);var s=t.textContent,u={element:t,language:i,grammar:l,code:s};if(n.hooks.run("before-sanity-check",u),!u.code||!u.grammar)return n.hooks.run("complete",u),void 0;if(n.hooks.run("before-highlight",u),a&&_self.Worker){var c=new Worker(n.filename);c.onmessage=function(e){u.highlightedCode=e.data,n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(u.element),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},c.postMessage(JSON.stringify({language:u.language,code:u.code,immediateClose:!0}))}else u.highlightedCode=n.highlight(u.code,u.grammar,u.language),n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(t),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},highlight:function(e,t,r){var i=n.tokenize(e,t);return a.stringify(n.util.encode(i),r)},tokenize:function(e,t){var a=n.Token,r=[e],i=t.rest;if(i){for(var l in i)t[l]=i[l];delete t.rest}e:for(var l in t)if(t.hasOwnProperty(l)&&t[l]){var o=t[l];o="Array"===n.util.type(o)?o:[o];for(var s=0;s<o.length;++s){var u=o[s],c=u.inside,g=!!u.lookbehind,h=!!u.greedy,f=0,d=u.alias;if(h&&!u.pattern.global){var p=u.pattern.toString().match(/[imuy]*$/)[0];u.pattern=RegExp(u.pattern.source,p+"g")}u=u.pattern||u;for(var m=0,y=0;m<r.length;y+=(r[m].matchedStr||r[m]).length,++m){var v=r[m];if(r.length>e.length)break e;if(!(v instanceof a)){u.lastIndex=0;var b=u.exec(v),k=1;if(!b&&h&&m!=r.length-1){if(u.lastIndex=y,b=u.exec(e),!b)break;for(var w=b.index+(g?b[1].length:0),_=b.index+b[0].length,A=m,S=y,P=r.length;P>A&&_>S;++A)S+=(r[A].matchedStr||r[A]).length,w>=S&&(++m,y=S);if(r[m]instanceof a||r[A-1].greedy)continue;k=A-m,v=e.slice(y,S),b.index-=y}if(b){g&&(f=b[1].length);var w=b.index+f,b=b[0].slice(f),_=w+b.length,x=v.slice(0,w),O=v.slice(_),j=[m,k];x&&j.push(x);var N=new a(l,c?n.tokenize(b,c):b,d,b,h);j.push(N),O&&j.push(O),Array.prototype.splice.apply(r,j)}}}}}return r},hooks:{all:{},add:function(e,t){var a=n.hooks.all;a[e]=a[e]||[],a[e].push(t)},run:function(e,t){var a=n.hooks.all[e];if(a&&a.length)for(var r,i=0;r=a[i++];)r(t)}}},a=n.Token=function(e,t,n,a,r){this.type=e,this.content=t,this.alias=n,this.matchedStr=a||null,this.greedy=!!r};if(a.stringify=function(e,t,r){if("string"==typeof e)return e;if("Array"===n.util.type(e))return e.map(function(n){return a.stringify(n,t,e)}).join("");var i={type:e.type,content:a.stringify(e.content,t,r),tag:"span",classes:["token",e.type],attributes:{},language:t,parent:r};if("comment"==i.type&&(i.attributes.spellcheck="true"),e.alias){var l="Array"===n.util.type(e.alias)?e.alias:[e.alias];Array.prototype.push.apply(i.classes,l)}n.hooks.run("wrap",i);var o="";for(var s in i.attributes)o+=(o?" ":"")+s+'="'+(i.attributes[s]||"")+'"';return"<"+i.tag+' class="'+i.classes.join(" ")+'"'+(o?" "+o:"")+">"+i.content+"</"+i.tag+">"},!_self.document)return _self.addEventListener?(_self.addEventListener("message",function(e){var t=JSON.parse(e.data),a=t.language,r=t.code,i=t.immediateClose;_self.postMessage(n.highlight(r,n.languages[a],a)),i&&_self.close()},!1),_self.Prism):_self.Prism;var r=document.currentScript||[].slice.call(document.getElementsByTagName("script")).pop();return r&&(n.filename=r.src,document.addEventListener&&!r.hasAttribute("data-manual")&&("loading"!==document.readyState?window.requestAnimationFrame?window.requestAnimationFrame(n.highlightAll):window.setTimeout(n.highlightAll,16):document.addEventListener("DOMContentLoaded",n.highlightAll))),_self.Prism}();"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism);
+      Prism.languages.scheme={comment:/;.*/,string:/"(?:[^"\\\r\n]|\\.)*?"|'[^('\s]*/,keyword:{pattern:/(\()(?:define(?:-syntax|-library|-values)?|(?:case-)?lambda|let(?:\*|rec)?(?:-values)?|else|if|cond|begin|delay(?:-force)?|parameterize|guard|set!|(?:quasi-)?quote|syntax-rules)/,lookbehind:!0},builtin:{pattern:/(\()(?:(?:cons|car|cdr|list|call-with-current-continuation|call\/cc|append|abs|apply|eval)\b|null\?|pair\?|boolean\?|eof-object\?|char\?|procedure\?|number\?|port\?|string\?|vector\?|symbol\?|bytevector\?)/,lookbehind:!0},number:{pattern:/(\s|\))[-+]?[0-9]*\.?[0-9]+(?:\s*[-+]\s*[0-9]*\.?[0-9]+i)?\b/,lookbehind:!0},"boolean":/#[tf]/,operator:{pattern:/(\()(?:[-+*%\/]|[<>]=?|=>?)/,lookbehind:!0},"function":{pattern:/(\()[^\s()]*(?=\s)/,lookbehind:!0},punctuation:/[()]/};
+    </script>
+    <script>
+      String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
+      filterFuns = function(pattern) {
+        if (pattern === "") {
+          [].slice.call(document.getElementsByClassName("nav-contents")).forEach(function(element) {
+            var title = element.getAttribute("id");
+            var par = document.getElementById(title.replace("-nav", "-expand"));
+
+            toggle(par, false);
+            toggleNamespace(document.getElementById(title.replace("-nav", "-namespace")), true);
+          });
+          return;
+        }
+        [].slice.call(document.getElementsByClassName("nav-contents")).forEach(function(element) {
+          var title = element.getAttribute("id");
+          var par = document.getElementById(title.replace("-nav", "-expand"));
+
+          if (title.toLowerCase().contains(pattern.toLowerCase())) {
+            toggleNamespace(document.getElementById(title.replace("-nav", "-namespace")), true);
+            toggle(par, true);
+          } else {
+            toggleNamespace(document.getElementById(title.replace("-nav", "-namespace")), false);
+            toggle(par, false);
+          }
+        });
+      };
+      const PROP = "hidden";
+      toggleNamespace = function(el, show) {
+        show ? el.classList.remove(PROP) : el.classList.add(PROP);
+      };
+      toggle = function(el, force) {
+          innerEl = document.getElementById(el.getAttribute("id").replace("-expand", "-nav"));
+
+          if ((innerEl.classList.contains(PROP) && force !== false) || force === true) {
+            el.innerHTML = "Click to hide";
+            innerEl.classList.remove(PROP);
+          } else {
+            el.innerHTML = "Click to expand";
+            innerEl.classList.add(PROP)
+          }
+      };
+      document.addEventListener("DOMContentLoaded", function() { 
+        function toggleView(ev) {
+          var el = ev.target;
+          toggle(el);
+        }
+        [].slice.call(document.getElementsByClassName("nav-contents")).forEach(function(el) {
+          var name = el.getAttribute("id");
+          var par = document.getElementById(name.replace("-nav", "-expand"));
+          par.addEventListener("click", toggleView);
+        });
+        [].slice.call(document.getElementsByTagName("fun")).forEach(function(el) {
+          //sorry
+          var newEl = document.createElement("a");
+
+          newEl.href = "#" + el.innerHTML;
+
+          newEl.innerHTML = el.innerHTML;
+
+          el.parentNode.replaceChild(newEl, el);
+        });
+        [].slice.call(document.getElementsByTagName("par")).forEach(function(el) {
+          //sorry
+          var newEl = document.createElement("a");
+          var funName = el.parentNode.parentNode.parentNode.id;
+
+          newEl.href = "#" + funName + "." + el.innerHTML;
+          console.log(newEl.href)
+
+          newEl.innerHTML = el.innerHTML;
+
+          el.parentNode.replaceChild(newEl, el);
+        });
+        [].slice.call(document.getElementsByTagName("zepto")).forEach(function(el) {
+          //sorry
+          var newEl = document.createElement("span");
+
+          newEl.innerHTML = el.innerHTML;
+
+          newEl.classList.add("language-scheme");
+          el.parentNode.replaceChild(newEl, el);
+          Prism.highlightElement(newEl);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="nav">
+      <h3>Functions</h3>
+      <input id="fancy-search" onkeyup="filterFuns(this.value)" placeholder="Search a Function" type="text"></input>
+      
+        <div id="redis-namespace">
+          <h4><a href="#redis">redis</a></h4>
+          <span id="redis-expand" class="clickr">Click to expand</span>
+          <div id="redis-nav" class="nav-contents hidden">
+            <ul>
+              
+              <li><a href="#redis:auth">redis:auth</a></li>
+              
+              <li><a href="#redis:bgrewriteaof">redis:bgrewriteaof</a></li>
+              
+              <li><a href="#redis:bgsave">redis:bgsave</a></li>
+              
+              <li><a href="#redis:bitcount">redis:bitcount</a></li>
+              
+              <li><a href="#redis:bitop">redis:bitop</a></li>
+              
+              <li><a href="#redis:bitpos">redis:bitpos</a></li>
+              
+              <li><a href="#redis:blpop">redis:blpop</a></li>
+              
+              <li><a href="#redis:brpop">redis:brpop</a></li>
+              
+              <li><a href="#redis:concat">redis:concat</a></li>
+              
+              <li><a href="#redis:config-get">redis:config-get</a></li>
+              
+              <li><a href="#redis:config-resetstat">redis:config-resetstat</a></li>
+              
+              <li><a href="#redis:config-rewrite">redis:config-rewrite</a></li>
+              
+              <li><a href="#redis:config-set">redis:config-set</a></li>
+              
+              <li><a href="#redis:dbsize">redis:dbsize</a></li>
+              
+              <li><a href="#redis:decr">redis:decr</a></li>
+              
+              <li><a href="#redis:decrby">redis:decrby</a></li>
+              
+              <li><a href="#redis:del">redis:del</a></li>
+              
+              <li><a href="#redis:echo">redis:echo</a></li>
+              
+              <li><a href="#redis:exist">redis:exist</a></li>
+              
+              <li><a href="#redis:expire">redis:expire</a></li>
+              
+              <li><a href="#redis:expireat">redis:expireat</a></li>
+              
+              <li><a href="#redis:flushall">redis:flushall</a></li>
+              
+              <li><a href="#redis:flushdb">redis:flushdb</a></li>
+              
+              <li><a href="#redis:get">redis:get</a></li>
+              
+              <li><a href="#redis:get-ip">redis:get-ip</a></li>
+              
+              <li><a href="#redis:get-port">redis:get-port</a></li>
+              
+              <li><a href="#redis:get-response">redis:get-response</a></li>
+              
+              <li><a href="#redis:get-socket">redis:get-socket</a></li>
+              
+              <li><a href="#redis:getrange">redis:getrange</a></li>
+              
+              <li><a href="#redis:getset">redis:getset</a></li>
+              
+              <li><a href="#redis:hdel">redis:hdel</a></li>
+              
+              <li><a href="#redis:hexists">redis:hexists</a></li>
+              
+              <li><a href="#redis:hget">redis:hget</a></li>
+              
+              <li><a href="#redis:hgetall">redis:hgetall</a></li>
+              
+              <li><a href="#redis:hincrby">redis:hincrby</a></li>
+              
+              <li><a href="#redis:hkeys">redis:hkeys</a></li>
+              
+              <li><a href="#redis:hlen">redis:hlen</a></li>
+              
+              <li><a href="#redis:hmset">redis:hmset</a></li>
+              
+              <li><a href="#redis:hsetnx">redis:hsetnx</a></li>
+              
+              <li><a href="#redis:hvals">redis:hvals</a></li>
+              
+              <li><a href="#redis:incr">redis:incr</a></li>
+              
+              <li><a href="#redis:incrby">redis:incrby</a></li>
+              
+              <li><a href="#redis:info">redis:info</a></li>
+              
+              <li><a href="#redis:keys">redis:keys</a></li>
+              
+              <li><a href="#redis:lastsave">redis:lastsave</a></li>
+              
+              <li><a href="#redis:lindex">redis:lindex</a></li>
+              
+              <li><a href="#redis:lpop">redis:lpop</a></li>
+              
+              <li><a href="#redis:lpush">redis:lpush</a></li>
+              
+              <li><a href="#redis:lrange">redis:lrange</a></li>
+              
+              <li><a href="#redis:lset">redis:lset</a></li>
+              
+              <li><a href="#redis:ltrim">redis:ltrim</a></li>
+              
+              <li><a href="#redis:make-redis">redis:make-redis</a></li>
+              
+              <li><a href="#redis:mget">redis:mget</a></li>
+              
+              <li><a href="#redis:monitor">redis:monitor</a></li>
+              
+              <li><a href="#redis:move">redis:move</a></li>
+              
+              <li><a href="#redis:mset">redis:mset</a></li>
+              
+              <li><a href="#redis:msetnx">redis:msetnx</a></li>
+              
+              <li><a href="#redis:new">redis:new</a></li>
+              
+              <li><a href="#redis:object">redis:object</a></li>
+              
+              <li><a href="#redis:ping">redis:ping</a></li>
+              
+              <li><a href="#redis:psubscribe">redis:psubscribe</a></li>
+              
+              <li><a href="#redis:publish">redis:publish</a></li>
+              
+              <li><a href="#redis:punsubscribe">redis:punsubscribe</a></li>
+              
+              <li><a href="#redis:quit">redis:quit</a></li>
+              
+              <li><a href="#redis:randomkey">redis:randomkey</a></li>
+              
+              <li><a href="#redis:redis?">redis:redis?</a></li>
+              
+              <li><a href="#redis:rename">redis:rename</a></li>
+              
+              <li><a href="#redis:renamex">redis:renamex</a></li>
+              
+              <li><a href="#redis:rpop">redis:rpop</a></li>
+              
+              <li><a href="#redis:rpoplpush">redis:rpoplpush</a></li>
+              
+              <li><a href="#redis:rpush">redis:rpush</a></li>
+              
+              <li><a href="#redis:sadd">redis:sadd</a></li>
+              
+              <li><a href="#redis:save">redis:save</a></li>
+              
+              <li><a href="#redis:scard">redis:scard</a></li>
+              
+              <li><a href="#redis:sdiff">redis:sdiff</a></li>
+              
+              <li><a href="#redis:sdiffstore">redis:sdiffstore</a></li>
+              
+              <li><a href="#redis:select">redis:select</a></li>
+              
+              <li><a href="#redis:send-command">redis:send-command</a></li>
+              
+              <li><a href="#redis:set">redis:set</a></li>
+              
+              <li><a href="#redis:set-ip">redis:set-ip</a></li>
+              
+              <li><a href="#redis:set-port">redis:set-port</a></li>
+              
+              <li><a href="#redis:set-socket">redis:set-socket</a></li>
+              
+              <li><a href="#redis:setnx">redis:setnx</a></li>
+              
+              <li><a href="#redis:shutdown">redis:shutdown</a></li>
+              
+              <li><a href="#redis:sinter">redis:sinter</a></li>
+              
+              <li><a href="#redis:sinterstore">redis:sinterstore</a></li>
+              
+              <li><a href="#redis:sismember">redis:sismember</a></li>
+              
+              <li><a href="#redis:slaveof">redis:slaveof</a></li>
+              
+              <li><a href="#redis:smembers">redis:smembers</a></li>
+              
+              <li><a href="#redis:smove">redis:smove</a></li>
+              
+              <li><a href="#redis:spop">redis:spop</a></li>
+              
+              <li><a href="#redis:srandmember">redis:srandmember</a></li>
+              
+              <li><a href="#redis:srem">redis:srem</a></li>
+              
+              <li><a href="#redis:strlen">redis:strlen</a></li>
+              
+              <li><a href="#redis:subscribe">redis:subscribe</a></li>
+              
+              <li><a href="#redis:sunion">redis:sunion</a></li>
+              
+              <li><a href="#redis:sunionstore">redis:sunionstore</a></li>
+              
+              <li><a href="#redis:ttl">redis:ttl</a></li>
+              
+              <li><a href="#redis:type">redis:type</a></li>
+              
+              <li><a href="#redis:unsubscribe">redis:unsubscribe</a></li>
+              
+              <li><a href="#redis:unwatch">redis:unwatch</a></li>
+              
+              <li><a href="#redis:watch">redis:watch</a></li>
+              
+              <li><a href="#redis:zadd">redis:zadd</a></li>
+              
+              <li><a href="#redis:zcard">redis:zcard</a></li>
+              
+              <li><a href="#redis:zcount">redis:zcount</a></li>
+              
+              <li><a href="#redis:zincrby">redis:zincrby</a></li>
+              
+              <li><a href="#redis:zinterstore">redis:zinterstore</a></li>
+              
+              <li><a href="#redis:zlexcount">redis:zlexcount</a></li>
+              
+              <li><a href="#redis:zrange">redis:zrange</a></li>
+              
+              <li><a href="#redis:zrangebylex">redis:zrangebylex</a></li>
+              
+              <li><a href="#redis:zrangebyscore">redis:zrangebyscore</a></li>
+              
+              <li><a href="#redis:zrem">redis:zrem</a></li>
+              
+              <li><a href="#redis:zremrangebylex">redis:zremrangebylex</a></li>
+              
+              <li><a href="#redis:zremrangebyrank">redis:zremrangebyrank</a></li>
+              
+              <li><a href="#redis:zremrangebyscore">redis:zremrangebyscore</a></li>
+              
+              <li><a href="#redis:zrevrange">redis:zrevrange</a></li>
+              
+              <li><a href="#redis:zrevrangebyscore">redis:zrevrangebyscore</a></li>
+              
+              <li><a href="#redis:zrevrank">redis:zrevrank</a></li>
+              
+              <li><a href="#redis:zscore">redis:zscore</a></li>
+              
+              <li><a href="#redis:zunionstore">redis:zunionstore</a></li>
+              
+            </ul>
+          </div>
+        </div>
+      
+    </div>
+    <div id="docs">
+      <h1>redis</h1>
+      <span class="description">The documentation of the redis package.</span>
+      
+      <h2 id="redis">redis</h2>
+      
+        <div class="fun" id="redis:auth">
+          <h3 class="name">(redis:auth <a href="#redis:auth.redis">redis</a> <a href="#redis:auth.password">password</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a auth to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/auth">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:auth.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:auth.password"><i>password</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:bgrewriteaof">
+          <h3 class="name">(redis:bgrewriteaof <a href="#redis:bgrewriteaof.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a bgrewriteaof to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/bgrewriteaof">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:bgrewriteaof.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:bgsave">
+          <h3 class="name">(redis:bgsave <a href="#redis:bgsave.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a bgsave to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/bgsave">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:bgsave.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:bitcount">
+          <h3 class="name">(redis:bitcount <a href="#redis:bitcount.redis">redis</a> <a href="#redis:bitcount.key">key</a> <a href="#redis:bitcount.start">start</a> <a href="#redis:bitcount.end">end</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a bitcount to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/bitcount">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:bitcount.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:bitcount.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:bitcount.start"><i>start</i>: No documentation</p>
+            
+            <p class="param" id="redis:bitcount.end"><i>end</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:bitop">
+          <h3 class="name">(redis:bitop <a href="#redis:bitop.redis">redis</a> <a href="#redis:bitop.operation">operation</a> <a href="#redis:bitop.destkey">destkey</a> <a href="#redis:bitop.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a bitop to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/bitop">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:bitop.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:bitop.operation"><i>operation</i>: No documentation</p>
+            
+            <p class="param" id="redis:bitop.destkey"><i>destkey</i>: No documentation</p>
+            
+            <p class="param" id="redis:bitop.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:bitpos">
+          <h3 class="name">(redis:bitpos <a href="#redis:bitpos.redis">redis</a> <a href="#redis:bitpos.key">key</a> <a href="#redis:bitpos.bit">bit</a> <a href="#redis:bitpos.args">args</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a bitpos to the server <par>redis</par>.
+   For a description of the command, please look <a href="http://redis.io/commands/ping">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:bitpos.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:bitpos.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:bitpos.bit"><i>bit</i>: No documentation</p>
+            
+            <p class="param" id="redis:bitpos.args"><i>args</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:blpop">
+          <h3 class="name">(redis:blpop <a href="#redis:blpop.redis">redis</a> <a href="#redis:blpop.keys">keys</a> <a href="#redis:blpop.timeout">timeout</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a blpop to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/blpop">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:blpop.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:blpop.keys"><i>keys</i>: No documentation</p>
+            
+            <p class="param" id="redis:blpop.timeout"><i>timeout</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:brpop">
+          <h3 class="name">(redis:brpop <a href="#redis:brpop.redis">redis</a> <a href="#redis:brpop.keys">keys</a> <a href="#redis:brpop.timeout">timeout</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a brpop to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/brpop">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:brpop.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:brpop.keys"><i>keys</i>: No documentation</p>
+            
+            <p class="param" id="redis:brpop.timeout"><i>timeout</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:concat">
+          <h3 class="name">(redis:concat <a href="#redis:concat.redis">redis</a> <a href="#redis:concat.key">key</a> <a href="#redis:concat.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a concat to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/concat">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:concat.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:concat.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:concat.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:config-get">
+          <h3 class="name">(redis:config-get <a href="#redis:config-get.redis">redis</a> <a href="#redis:config-get.parameter">parameter</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a config-get to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/config-get">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:config-get.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:config-get.parameter"><i>parameter</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:config-resetstat">
+          <h3 class="name">(redis:config-resetstat <a href="#redis:config-resetstat.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a config-resetstat to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/config-resetstat">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:config-resetstat.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:config-rewrite">
+          <h3 class="name">(redis:config-rewrite <a href="#redis:config-rewrite.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a config-rewrite to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/config-rewrite">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:config-rewrite.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:config-set">
+          <h3 class="name">(redis:config-set <a href="#redis:config-set.redis">redis</a> <a href="#redis:config-set.parameter">parameter</a> <a href="#redis:config-set.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a config-set to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/config-set">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:config-set.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:config-set.parameter"><i>parameter</i>: No documentation</p>
+            
+            <p class="param" id="redis:config-set.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:dbsize">
+          <h3 class="name">(redis:dbsize <a href="#redis:dbsize.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a dbsize to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/dbsize">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:dbsize.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:decr">
+          <h3 class="name">(redis:decr <a href="#redis:decr.redis">redis</a> <a href="#redis:decr.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a decr to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/decr">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:decr.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:decr.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:decrby">
+          <h3 class="name">(redis:decrby <a href="#redis:decrby.redis">redis</a> <a href="#redis:decrby.key">key</a> <a href="#redis:decrby.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a decrby to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/decrby">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:decrby.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:decrby.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:decrby.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:del">
+          <h3 class="name">(redis:del <a href="#redis:del.redis">redis</a> <a href="#redis:del.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a del to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/del">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:del.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:del.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:echo">
+          <h3 class="name">(redis:echo <a href="#redis:echo.redis">redis</a> <a href="#redis:echo.msg">msg</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a echo to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/echo">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:echo.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:echo.msg"><i>msg</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:exist">
+          <h3 class="name">(redis:exist <a href="#redis:exist.redis">redis</a> <a href="#redis:exist.keys">keys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a exist to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/exist">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:exist.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:exist.keys"><i>keys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:expire">
+          <h3 class="name">(redis:expire <a href="#redis:expire.redis">redis</a> <a href="#redis:expire.key">key</a> <a href="#redis:expire.seconds">seconds</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a expire to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/expire">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:expire.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:expire.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:expire.seconds"><i>seconds</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:expireat">
+          <h3 class="name">(redis:expireat <a href="#redis:expireat.redis">redis</a> <a href="#redis:expireat.key">key</a> <a href="#redis:expireat.unixtime">unixtime</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a expireat to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/expireat">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:expireat.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:expireat.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:expireat.unixtime"><i>unixtime</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:flushall">
+          <h3 class="name">(redis:flushall <a href="#redis:flushall.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a flushall to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/flushall">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:flushall.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:flushdb">
+          <h3 class="name">(redis:flushdb <a href="#redis:flushdb.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a flushdb to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/flushdb">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:flushdb.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:get">
+          <h3 class="name">(redis:get <a href="#redis:get.redis">redis</a> <a href="#redis:get.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a get to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/get">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:get.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:get.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:get-ip">
+          <h3 class="name">(redis:get-ip <a href="#redis:get-ip.thing">thing</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">No documentation available</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:get-ip.thing"><i>thing</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> N.A.</p>
+            <p class="returns"><b>Returns:</b> N.A.</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:get-port">
+          <h3 class="name">(redis:get-port <a href="#redis:get-port.thing">thing</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">No documentation available</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:get-port.thing"><i>thing</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> N.A.</p>
+            <p class="returns"><b>Returns:</b> N.A.</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:get-response">
+          <h3 class="name">(redis:get-response <a href="#redis:get-response.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">get a response from the server <par>redis</par>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:get-response.redis"><i>redis</i>: a redis server instance as created by <fun>redis:new</fun></p>
+            
+            <p class="complexity"><b>Complexity:</b> O(n) where n is the size of the response</p>
+            <p class="returns"><b>Returns:</b> the decoded response</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:get-socket">
+          <h3 class="name">(redis:get-socket <a href="#redis:get-socket.thing">thing</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">No documentation available</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:get-socket.thing"><i>thing</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> N.A.</p>
+            <p class="returns"><b>Returns:</b> N.A.</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:getrange">
+          <h3 class="name">(redis:getrange <a href="#redis:getrange.redis">redis</a> <a href="#redis:getrange.key">key</a> <a href="#redis:getrange.start">start</a> <a href="#redis:getrange.end">end</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a getrange to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/getrange">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:getrange.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:getrange.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:getrange.start"><i>start</i>: No documentation</p>
+            
+            <p class="param" id="redis:getrange.end"><i>end</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:getset">
+          <h3 class="name">(redis:getset <a href="#redis:getset.redis">redis</a> <a href="#redis:getset.key">key</a> <a href="#redis:getset.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a getset to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/getset">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:getset.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:getset.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:getset.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hdel">
+          <h3 class="name">(redis:hdel <a href="#redis:hdel.redis">redis</a> <a href="#redis:hdel.key">key</a> <a href="#redis:hdel.fields">fields</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hdel to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hdel">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hdel.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hdel.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:hdel.fields"><i>fields</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hexists">
+          <h3 class="name">(redis:hexists <a href="#redis:hexists.redis">redis</a> <a href="#redis:hexists.key">key</a> <a href="#redis:hexists.field">field</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hexists to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hexists">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hexists.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hexists.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:hexists.field"><i>field</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hget">
+          <h3 class="name">(redis:hget <a href="#redis:hget.redis">redis</a> <a href="#redis:hget.key">key</a> <a href="#redis:hget.field">field</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hget to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hget">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hget.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hget.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:hget.field"><i>field</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hgetall">
+          <h3 class="name">(redis:hgetall <a href="#redis:hgetall.redis">redis</a> <a href="#redis:hgetall.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hgetall to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hgetall">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hgetall.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hgetall.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hincrby">
+          <h3 class="name">(redis:hincrby <a href="#redis:hincrby.redis">redis</a> <a href="#redis:hincrby.key">key</a> <a href="#redis:hincrby.field">field</a> <a href="#redis:hincrby.increment">increment</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hincrby to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hincrby">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hincrby.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hincrby.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:hincrby.field"><i>field</i>: No documentation</p>
+            
+            <p class="param" id="redis:hincrby.increment"><i>increment</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hkeys">
+          <h3 class="name">(redis:hkeys <a href="#redis:hkeys.redis">redis</a> <a href="#redis:hkeys.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hkeys to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hkeys">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hkeys.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hkeys.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hlen">
+          <h3 class="name">(redis:hlen <a href="#redis:hlen.redis">redis</a> <a href="#redis:hlen.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hlen to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hlen">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hlen.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hlen.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hmset">
+          <h3 class="name">(redis:hmset <a href="#redis:hmset.redis">redis</a> <a href="#redis:hmset.key">key</a> <a href="#redis:hmset.data">data</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hmset to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hmset">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hmset.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hmset.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:hmset.data"><i>data</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hsetnx">
+          <h3 class="name">(redis:hsetnx <a href="#redis:hsetnx.redis">redis</a> <a href="#redis:hsetnx.key">key</a> <a href="#redis:hsetnx.field">field</a> <a href="#redis:hsetnx.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hsetnx to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hsetnx">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hsetnx.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hsetnx.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:hsetnx.field"><i>field</i>: No documentation</p>
+            
+            <p class="param" id="redis:hsetnx.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:hvals">
+          <h3 class="name">(redis:hvals <a href="#redis:hvals.redis">redis</a> <a href="#redis:hvals.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a hvals to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/hvals">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:hvals.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:hvals.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:incr">
+          <h3 class="name">(redis:incr <a href="#redis:incr.redis">redis</a> <a href="#redis:incr.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a incr to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/incr">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:incr.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:incr.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:incrby">
+          <h3 class="name">(redis:incrby <a href="#redis:incrby.redis">redis</a> <a href="#redis:incrby.key">key</a> <a href="#redis:incrby.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a incrby to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/incrby">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:incrby.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:incrby.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:incrby.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:info">
+          <h3 class="name">(redis:info <a href="#redis:info.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a info to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/info">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:info.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:keys">
+          <h3 class="name">(redis:keys <a href="#redis:keys.redis">redis</a> <a href="#redis:keys.pattern">pattern</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a keys to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/keys">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:keys.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:keys.pattern"><i>pattern</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:lastsave">
+          <h3 class="name">(redis:lastsave <a href="#redis:lastsave.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a lastsave to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/lastsave">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:lastsave.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:lindex">
+          <h3 class="name">(redis:lindex <a href="#redis:lindex.redis">redis</a> <a href="#redis:lindex.key">key</a> <a href="#redis:lindex.index">index</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a lindex to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/lindex">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:lindex.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:lindex.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:lindex.index"><i>index</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:lpop">
+          <h3 class="name">(redis:lpop <a href="#redis:lpop.redis">redis</a> <a href="#redis:lpop.key">key</a> <a href="#redis:lpop.string">string</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a lpop to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/lpop">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:lpop.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:lpop.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:lpop.string"><i>string</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:lpush">
+          <h3 class="name">(redis:lpush <a href="#redis:lpush.redis">redis</a> <a href="#redis:lpush.key">key</a> <a href="#redis:lpush.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a lpush to the server <par>redis</par>.
+   For a description of the command, please look <a href="http://redis.io/commands/ping">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:lpush.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:lpush.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:lpush.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:lrange">
+          <h3 class="name">(redis:lrange <a href="#redis:lrange.redis">redis</a> <a href="#redis:lrange.key">key</a> <a href="#redis:lrange.min">min</a> <a href="#redis:lrange.max">max</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a lrange to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/lrange">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:lrange.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:lrange.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:lrange.min"><i>min</i>: No documentation</p>
+            
+            <p class="param" id="redis:lrange.max"><i>max</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:lset">
+          <h3 class="name">(redis:lset <a href="#redis:lset.redis">redis</a> <a href="#redis:lset.key">key</a> <a href="#redis:lset.index">index</a> <a href="#redis:lset.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a lset to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/lset">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:lset.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:lset.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:lset.index"><i>index</i>: No documentation</p>
+            
+            <p class="param" id="redis:lset.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:ltrim">
+          <h3 class="name">(redis:ltrim <a href="#redis:ltrim.redis">redis</a> <a href="#redis:ltrim.key">key</a> <a href="#redis:ltrim.start">start</a> <a href="#redis:ltrim.end">end</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a ltrim to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/ltrim">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:ltrim.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:ltrim.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:ltrim.start"><i>start</i>: No documentation</p>
+            
+            <p class="param" id="redis:ltrim.end"><i>end</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:make-redis">
+          <h3 class="name">(redis:make-redis <a href="#redis:make-redis.args">args</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">lambda</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:make-redis.args"><i>args</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> N.A.</p>
+            <p class="returns"><b>Returns:</b> N.A.</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:mget">
+          <h3 class="name">(redis:mget <a href="#redis:mget.redis">redis</a> <a href="#redis:mget.keys">keys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a mget to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/mget">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:mget.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:mget.keys"><i>keys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:monitor">
+          <h3 class="name">(redis:monitor <a href="#redis:monitor.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a monitor to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/monitor">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:monitor.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:move">
+          <h3 class="name">(redis:move <a href="#redis:move.redis">redis</a> <a href="#redis:move.key">key</a> <a href="#redis:move.index">index</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a move to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/move">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:move.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:move.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:move.index"><i>index</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:mset">
+          <h3 class="name">(redis:mset <a href="#redis:mset.redis">redis</a> <a href="#redis:mset.data">data</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a mset to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/mset">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:mset.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:mset.data"><i>data</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:msetnx">
+          <h3 class="name">(redis:msetnx <a href="#redis:msetnx.redis">redis</a> <a href="#redis:msetnx.data">data</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a msetnx to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/msetnx">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:msetnx.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:msetnx.data"><i>data</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:new">
+          <h3 class="name">(redis:new <a href="#redis:new.args">args</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">create a new redis server instance.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:new.args"><i>args</i>: keyword args (:ip, default <zepto>"127.0.0.1"<zepto>; :port, default <zepto>6379</zepto></p>
+            
+            <p class="complexity"><b>Complexity:</b> O(1)</p>
+            <p class="returns"><b>Returns:</b> a redis server instance</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:object">
+          <h3 class="name">(redis:object <a href="#redis:object.redis">redis</a> <a href="#redis:object.subcommand">subcommand</a> <a href="#redis:object.args">args</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a object to the server <par>redis</par>.
+   For a description of the command, please look <a href="http://redis.io/commands/ping">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:object.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:object.subcommand"><i>subcommand</i>: No documentation</p>
+            
+            <p class="param" id="redis:object.args"><i>args</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:ping">
+          <h3 class="name">(redis:ping <a href="#redis:ping.redis">redis</a> <a href="#redis:ping.msg">msg</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a ping to the server <par>redis</par>.
+   For a description of the command, please look <a href="http://redis.io/commands/ping">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:ping.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:ping.msg"><i>msg</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:psubscribe">
+          <h3 class="name">(redis:psubscribe <a href="#redis:psubscribe.redis">redis</a> <a href="#redis:psubscribe.pattern">pattern</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a psubscribe to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/psubscribe">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:psubscribe.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:psubscribe.pattern"><i>pattern</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:publish">
+          <h3 class="name">(redis:publish <a href="#redis:publish.redis">redis</a> <a href="#redis:publish.channel">channel</a> <a href="#redis:publish.msg">msg</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a publish to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/publish">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:publish.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:publish.channel"><i>channel</i>: No documentation</p>
+            
+            <p class="param" id="redis:publish.msg"><i>msg</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:punsubscribe">
+          <h3 class="name">(redis:punsubscribe <a href="#redis:punsubscribe.redis">redis</a> <a href="#redis:punsubscribe.pattern">pattern</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a punsubscribe to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/punsubscribe">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:punsubscribe.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:punsubscribe.pattern"><i>pattern</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:quit">
+          <h3 class="name">(redis:quit <a href="#redis:quit.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a quit to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/quit">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:quit.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:randomkey">
+          <h3 class="name">(redis:randomkey <a href="#redis:randomkey.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a randomkey to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/randomkey">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:randomkey.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:redis?">
+          <h3 class="name">(redis:redis? <a href="#redis:redis?.thing">thing</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">No documentation available</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:redis?.thing"><i>thing</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> N.A.</p>
+            <p class="returns"><b>Returns:</b> N.A.</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:rename">
+          <h3 class="name">(redis:rename <a href="#redis:rename.redis">redis</a> <a href="#redis:rename.oldkey">oldkey</a> <a href="#redis:rename.newkey">newkey</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a rename to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/rename">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:rename.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:rename.oldkey"><i>oldkey</i>: No documentation</p>
+            
+            <p class="param" id="redis:rename.newkey"><i>newkey</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:renamex">
+          <h3 class="name">(redis:renamex <a href="#redis:renamex.redis">redis</a> <a href="#redis:renamex.oldkey">oldkey</a> <a href="#redis:renamex.newkey">newkey</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a renamex to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/renamex">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:renamex.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:renamex.oldkey"><i>oldkey</i>: No documentation</p>
+            
+            <p class="param" id="redis:renamex.newkey"><i>newkey</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:rpop">
+          <h3 class="name">(redis:rpop <a href="#redis:rpop.redis">redis</a> <a href="#redis:rpop.key">key</a> <a href="#redis:rpop.string">string</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a rpop to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/rpop">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:rpop.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:rpop.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:rpop.string"><i>string</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:rpoplpush">
+          <h3 class="name">(redis:rpoplpush <a href="#redis:rpoplpush.redis">redis</a> <a href="#redis:rpoplpush.src">src</a> <a href="#redis:rpoplpush.dest">dest</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a rpoplpush to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/rpoplpush">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:rpoplpush.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:rpoplpush.src"><i>src</i>: No documentation</p>
+            
+            <p class="param" id="redis:rpoplpush.dest"><i>dest</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:rpush">
+          <h3 class="name">(redis:rpush <a href="#redis:rpush.redis">redis</a> <a href="#redis:rpush.key">key</a> <a href="#redis:rpush.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a rpush to the server <par>redis</par>.
+   For a description of the command, please look <a href="http://redis.io/commands/ping">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:rpush.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:rpush.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:rpush.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:sadd">
+          <h3 class="name">(redis:sadd <a href="#redis:sadd.redis">redis</a> <a href="#redis:sadd.key">key</a> <a href="#redis:sadd.member">member</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a sadd to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/sadd">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:sadd.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:sadd.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:sadd.member"><i>member</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:save">
+          <h3 class="name">(redis:save <a href="#redis:save.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a save to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/save">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:save.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:scard">
+          <h3 class="name">(redis:scard <a href="#redis:scard.redis">redis</a> <a href="#redis:scard.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a scard to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/scard">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:scard.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:scard.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:sdiff">
+          <h3 class="name">(redis:sdiff <a href="#redis:sdiff.redis">redis</a> <a href="#redis:sdiff.keys">keys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a sdiff to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/sdiff">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:sdiff.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:sdiff.keys"><i>keys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:sdiffstore">
+          <h3 class="name">(redis:sdiffstore <a href="#redis:sdiffstore.redis">redis</a> <a href="#redis:sdiffstore.destkey">destkey</a> <a href="#redis:sdiffstore.srckeys">srckeys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a sdiffstore to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/sdiffstore">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:sdiffstore.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:sdiffstore.destkey"><i>destkey</i>: No documentation</p>
+            
+            <p class="param" id="redis:sdiffstore.srckeys"><i>srckeys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:select">
+          <h3 class="name">(redis:select <a href="#redis:select.redis">redis</a> <a href="#redis:select.index">index</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a select to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/select">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:select.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:select.index"><i>index</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:send-command">
+          <h3 class="name">(redis:send-command <a href="#redis:send-command.redis">redis</a> <a href="#redis:send-command.command">command</a> <a href="#redis:send-command.args">args</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends <par>command</par> to the server <par>redis</par>.
+   All other arguments will be encoded and piped through.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:send-command.redis"><i>redis</i>: a redis server instance as created by <fun>redis:new</fun></p>
+            
+            <p class="param" id="redis:send-command.command"><i>command</i>: the command string (e.g. <zepto>"PING"</zepto>)</p>
+            
+            <p class="param" id="redis:send-command.args"><i>args</i>: the rest of the arguments (as varargs)</p>
+            
+            <p class="complexity"><b>Complexity:</b> O(n)</p>
+            <p class="returns"><b>Returns:</b> the result of sending through the socket</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:set">
+          <h3 class="name">(redis:set <a href="#redis:set.redis">redis</a> <a href="#redis:set.key">key</a> <a href="#redis:set.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a set to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/set">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:set.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:set.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:set.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:set-ip">
+          <h3 class="name">(redis:set-ip <a href="#redis:set-ip.thing">thing</a> <a href="#redis:set-ip.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">No documentation available</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:set-ip.thing"><i>thing</i>: No documentation</p>
+            
+            <p class="param" id="redis:set-ip.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> N.A.</p>
+            <p class="returns"><b>Returns:</b> N.A.</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:set-port">
+          <h3 class="name">(redis:set-port <a href="#redis:set-port.thing">thing</a> <a href="#redis:set-port.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">No documentation available</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:set-port.thing"><i>thing</i>: No documentation</p>
+            
+            <p class="param" id="redis:set-port.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> N.A.</p>
+            <p class="returns"><b>Returns:</b> N.A.</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:set-socket">
+          <h3 class="name">(redis:set-socket <a href="#redis:set-socket.thing">thing</a> <a href="#redis:set-socket.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">No documentation available</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:set-socket.thing"><i>thing</i>: No documentation</p>
+            
+            <p class="param" id="redis:set-socket.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> N.A.</p>
+            <p class="returns"><b>Returns:</b> N.A.</p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:setnx">
+          <h3 class="name">(redis:setnx <a href="#redis:setnx.redis">redis</a> <a href="#redis:setnx.key">key</a> <a href="#redis:setnx.value">value</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a setnx to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/setnx">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:setnx.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:setnx.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:setnx.value"><i>value</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:shutdown">
+          <h3 class="name">(redis:shutdown <a href="#redis:shutdown.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a shutdown to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/shutdown">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:shutdown.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:sinter">
+          <h3 class="name">(redis:sinter <a href="#redis:sinter.redis">redis</a> <a href="#redis:sinter.keys">keys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a sinter to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/sinter">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:sinter.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:sinter.keys"><i>keys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:sinterstore">
+          <h3 class="name">(redis:sinterstore <a href="#redis:sinterstore.redis">redis</a> <a href="#redis:sinterstore.destkey">destkey</a> <a href="#redis:sinterstore.srckeys">srckeys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a sinterstore to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/sinterstore">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:sinterstore.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:sinterstore.destkey"><i>destkey</i>: No documentation</p>
+            
+            <p class="param" id="redis:sinterstore.srckeys"><i>srckeys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:sismember">
+          <h3 class="name">(redis:sismember <a href="#redis:sismember.redis">redis</a> <a href="#redis:sismember.key">key</a> <a href="#redis:sismember.member">member</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a sismember to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/sismember">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:sismember.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:sismember.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:sismember.member"><i>member</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:slaveof">
+          <h3 class="name">(redis:slaveof <a href="#redis:slaveof.redis">redis</a> <a href="#redis:slaveof.host">host</a> <a href="#redis:slaveof.port">port</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a slaveof to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/slaveof">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:slaveof.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:slaveof.host"><i>host</i>: No documentation</p>
+            
+            <p class="param" id="redis:slaveof.port"><i>port</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:smembers">
+          <h3 class="name">(redis:smembers <a href="#redis:smembers.redis">redis</a> <a href="#redis:smembers.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a smembers to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/smembers">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:smembers.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:smembers.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:smove">
+          <h3 class="name">(redis:smove <a href="#redis:smove.redis">redis</a> <a href="#redis:smove.srckey">srckey</a> <a href="#redis:smove.destkey">destkey</a> <a href="#redis:smove.member">member</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a smove to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/smove">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:smove.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:smove.srckey"><i>srckey</i>: No documentation</p>
+            
+            <p class="param" id="redis:smove.destkey"><i>destkey</i>: No documentation</p>
+            
+            <p class="param" id="redis:smove.member"><i>member</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:spop">
+          <h3 class="name">(redis:spop <a href="#redis:spop.redis">redis</a> <a href="#redis:spop.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a spop to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/spop">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:spop.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:spop.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:srandmember">
+          <h3 class="name">(redis:srandmember <a href="#redis:srandmember.redis">redis</a> <a href="#redis:srandmember.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a srandmember to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/srandmember">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:srandmember.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:srandmember.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:srem">
+          <h3 class="name">(redis:srem <a href="#redis:srem.redis">redis</a> <a href="#redis:srem.key">key</a> <a href="#redis:srem.member">member</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a srem to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/srem">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:srem.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:srem.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:srem.member"><i>member</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:strlen">
+          <h3 class="name">(redis:strlen <a href="#redis:strlen.redis">redis</a> <a href="#redis:strlen.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a strlen to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/strlen">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:strlen.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:strlen.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:subscribe">
+          <h3 class="name">(redis:subscribe <a href="#redis:subscribe.redis">redis</a> <a href="#redis:subscribe.channel">channel</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a subscribe to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/subscribe">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:subscribe.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:subscribe.channel"><i>channel</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:sunion">
+          <h3 class="name">(redis:sunion <a href="#redis:sunion.redis">redis</a> <a href="#redis:sunion.keys">keys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a sunion to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/sunion">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:sunion.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:sunion.keys"><i>keys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:sunionstore">
+          <h3 class="name">(redis:sunionstore <a href="#redis:sunionstore.redis">redis</a> <a href="#redis:sunionstore.destkey">destkey</a> <a href="#redis:sunionstore.srckeys">srckeys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a sunionstore to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/sunionstore">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:sunionstore.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:sunionstore.destkey"><i>destkey</i>: No documentation</p>
+            
+            <p class="param" id="redis:sunionstore.srckeys"><i>srckeys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:ttl">
+          <h3 class="name">(redis:ttl <a href="#redis:ttl.redis">redis</a> <a href="#redis:ttl.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a ttl to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/ttl">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:ttl.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:ttl.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:type">
+          <h3 class="name">(redis:type <a href="#redis:type.redis">redis</a> <a href="#redis:type.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a type to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/type">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:type.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:type.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:unsubscribe">
+          <h3 class="name">(redis:unsubscribe <a href="#redis:unsubscribe.redis">redis</a> <a href="#redis:unsubscribe.channel">channel</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a unsubscribe to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/unsubscribe">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:unsubscribe.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:unsubscribe.channel"><i>channel</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:unwatch">
+          <h3 class="name">(redis:unwatch <a href="#redis:unwatch.redis">redis</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a unwatch to the server <par>redis</par>.
+                For a description of the command, please look <a href="http://redis.io/commands/unwatch">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:unwatch.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:watch">
+          <h3 class="name">(redis:watch <a href="#redis:watch.redis">redis</a> <a href="#redis:watch.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a watch to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/watch">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:watch.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:watch.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zadd">
+          <h3 class="name">(redis:zadd <a href="#redis:zadd.redis">redis</a> <a href="#redis:zadd.key">key</a> <a href="#redis:zadd.data">data</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zadd to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zadd">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zadd.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zadd.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zadd.data"><i>data</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zcard">
+          <h3 class="name">(redis:zcard <a href="#redis:zcard.redis">redis</a> <a href="#redis:zcard.key">key</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zcard to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zcard">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zcard.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zcard.key"><i>key</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zcount">
+          <h3 class="name">(redis:zcount <a href="#redis:zcount.redis">redis</a> <a href="#redis:zcount.key">key</a> <a href="#redis:zcount.min">min</a> <a href="#redis:zcount.max">max</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zcount to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zcount">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zcount.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zcount.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zcount.min"><i>min</i>: No documentation</p>
+            
+            <p class="param" id="redis:zcount.max"><i>max</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zincrby">
+          <h3 class="name">(redis:zincrby <a href="#redis:zincrby.redis">redis</a> <a href="#redis:zincrby.key">key</a> <a href="#redis:zincrby.incr">incr</a> <a href="#redis:zincrby.member">member</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zincrby to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zincrby">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zincrby.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zincrby.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zincrby.incr"><i>incr</i>: No documentation</p>
+            
+            <p class="param" id="redis:zincrby.member"><i>member</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zinterstore">
+          <h3 class="name">(redis:zinterstore <a href="#redis:zinterstore.redis">redis</a> <a href="#redis:zinterstore.dest">dest</a> <a href="#redis:zinterstore.keys">keys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zinterstore to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zinterstore">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zinterstore.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zinterstore.dest"><i>dest</i>: No documentation</p>
+            
+            <p class="param" id="redis:zinterstore.keys"><i>keys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zlexcount">
+          <h3 class="name">(redis:zlexcount <a href="#redis:zlexcount.redis">redis</a> <a href="#redis:zlexcount.key">key</a> <a href="#redis:zlexcount.min">min</a> <a href="#redis:zlexcount.max">max</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zlexcount to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zlexcount">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zlexcount.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zlexcount.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zlexcount.min"><i>min</i>: No documentation</p>
+            
+            <p class="param" id="redis:zlexcount.max"><i>max</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zrange">
+          <h3 class="name">(redis:zrange <a href="#redis:zrange.redis">redis</a> <a href="#redis:zrange.key">key</a> <a href="#redis:zrange.start">start</a> <a href="#redis:zrange.end">end</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zrange to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zrange">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zrange.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zrange.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrange.start"><i>start</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrange.end"><i>end</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zrangebylex">
+          <h3 class="name">(redis:zrangebylex <a href="#redis:zrangebylex.redis">redis</a> <a href="#redis:zrangebylex.key">key</a> <a href="#redis:zrangebylex.min">min</a> <a href="#redis:zrangebylex.max">max</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zrangebylex to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zrangebylex">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zrangebylex.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zrangebylex.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrangebylex.min"><i>min</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrangebylex.max"><i>max</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zrangebyscore">
+          <h3 class="name">(redis:zrangebyscore <a href="#redis:zrangebyscore.redis">redis</a> <a href="#redis:zrangebyscore.key">key</a> <a href="#redis:zrangebyscore.min">min</a> <a href="#redis:zrangebyscore.max">max</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zrangebyscore to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zrangebyscore">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zrangebyscore.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zrangebyscore.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrangebyscore.min"><i>min</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrangebyscore.max"><i>max</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zrem">
+          <h3 class="name">(redis:zrem <a href="#redis:zrem.redis">redis</a> <a href="#redis:zrem.key">key</a> <a href="#redis:zrem.member">member</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zrem to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zrem">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zrem.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zrem.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrem.member"><i>member</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zremrangebylex">
+          <h3 class="name">(redis:zremrangebylex <a href="#redis:zremrangebylex.redis">redis</a> <a href="#redis:zremrangebylex.key">key</a> <a href="#redis:zremrangebylex.min">min</a> <a href="#redis:zremrangebylex.max">max</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zremrangebylex to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zremrangebylex">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zremrangebylex.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zremrangebylex.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zremrangebylex.min"><i>min</i>: No documentation</p>
+            
+            <p class="param" id="redis:zremrangebylex.max"><i>max</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zremrangebyrank">
+          <h3 class="name">(redis:zremrangebyrank <a href="#redis:zremrangebyrank.redis">redis</a> <a href="#redis:zremrangebyrank.key">key</a> <a href="#redis:zremrangebyrank.start">start</a> <a href="#redis:zremrangebyrank.stop">stop</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zremrangebyrank to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zremrangebyrank">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zremrangebyrank.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zremrangebyrank.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zremrangebyrank.start"><i>start</i>: No documentation</p>
+            
+            <p class="param" id="redis:zremrangebyrank.stop"><i>stop</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zremrangebyscore">
+          <h3 class="name">(redis:zremrangebyscore <a href="#redis:zremrangebyscore.redis">redis</a> <a href="#redis:zremrangebyscore.key">key</a> <a href="#redis:zremrangebyscore.min">min</a> <a href="#redis:zremrangebyscore.max">max</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zremrangebyscore to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zremrangebyscore">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zremrangebyscore.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zremrangebyscore.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zremrangebyscore.min"><i>min</i>: No documentation</p>
+            
+            <p class="param" id="redis:zremrangebyscore.max"><i>max</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zrevrange">
+          <h3 class="name">(redis:zrevrange <a href="#redis:zrevrange.redis">redis</a> <a href="#redis:zrevrange.key">key</a> <a href="#redis:zrevrange.start">start</a> <a href="#redis:zrevrange.end">end</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zrevrange to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zrevrange">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zrevrange.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zrevrange.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrevrange.start"><i>start</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrevrange.end"><i>end</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zrevrangebyscore">
+          <h3 class="name">(redis:zrevrangebyscore <a href="#redis:zrevrangebyscore.redis">redis</a> <a href="#redis:zrevrangebyscore.key">key</a> <a href="#redis:zrevrangebyscore.max">max</a> <a href="#redis:zrevrangebyscore.min">min</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zrevrangebyscore to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zrevrangebyscore">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zrevrangebyscore.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zrevrangebyscore.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrevrangebyscore.max"><i>max</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrevrangebyscore.min"><i>min</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zrevrank">
+          <h3 class="name">(redis:zrevrank <a href="#redis:zrevrank.redis">redis</a> <a href="#redis:zrevrank.key">key</a> <a href="#redis:zrevrank.member">member</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zrevrank to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zrevrank">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zrevrank.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zrevrank.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zrevrank.member"><i>member</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zscore">
+          <h3 class="name">(redis:zscore <a href="#redis:zscore.redis">redis</a> <a href="#redis:zscore.key">key</a> <a href="#redis:zscore.member">member</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zscore to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zscore">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zscore.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zscore.key"><i>key</i>: No documentation</p>
+            
+            <p class="param" id="redis:zscore.member"><i>member</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+        <div class="fun" id="redis:zunionstore">
+          <h3 class="name">(redis:zunionstore <a href="#redis:zunionstore.redis">redis</a> <a href="#redis:zunionstore.dest">dest</a> <a href="#redis:zunionstore.keys">keys</a>) </h3>
+          <div class="a-little-right">
+            <p class="description">sends a zunionstore to the server <par>redis</par>.
+                  For a description of the command, please look <a href="http://redis.io/commands/zunionstore">here</a>.</p>
+            <b>Parameters:</b>
+            
+            <p class="param" id="redis:zunionstore.redis"><i>redis</i>: the redis server</p>
+            
+            <p class="param" id="redis:zunionstore.dest"><i>dest</i>: No documentation</p>
+            
+            <p class="param" id="redis:zunionstore.keys"><i>keys</i>: No documentation</p>
+            
+            <p class="complexity"><b>Complexity:</b> the combined complexity of <fun>redis:send-command</fun> and <fun>redis:get-reponse</fun></p>
+            <p class="returns"><b>Returns:</b> the result of <fun>redis:get-response</fun></p>
+          </div>
+        </div>
+      
+      
+    </div>
+  </body>
+</html>
+

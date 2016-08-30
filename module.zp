@@ -1,6 +1,6 @@
-#{:name "redis" 
-  :version "0.0.1" 
-  :license "GPLv2" 
+#{:name "redis"
+  :version "0.0.2"
+  :license "GPLv2"
   :type :library
   :tests []
   :author #{:name "Veit Heller"
