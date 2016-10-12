@@ -1,4 +1,4 @@
-(load "resp")
+(load "redis/resp")
 (import-all "resp")
 
 (define-struct redis (ip port socket))
