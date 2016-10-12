@@ -1,5 +1,6 @@
 #{:name "redis"
-  :version "0.0.2"
+  :description "A redis client for zepto"
+  :version "0.0.3"
   :license "GPLv2"
   :type :library
   :tests []
