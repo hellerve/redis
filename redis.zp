@@ -176,6 +176,7 @@
 (define-redis bgrewriteaof)
 (define-redis shutdown)
 (define-redis info)
+(define-redis time)
 (define-redis monitor)
 (define-redis slaveof (host port))
 (define-redis subscribe channel)

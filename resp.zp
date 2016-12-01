@@ -46,13 +46,35 @@
 
   (decode-simple-string strip-redis-string)
 
-  (decode-error strip-redis-string)
+  (decode-error ($ (make-error (strip-redis-string %))))
 
   (decode-integer (compose string->integer strip-redis-string))
 
   (decode-bulk-string (lambda (obj) "it does not do length-checking!"
-    (cadr (strip-redis-strings obj))))
+    (if (string:starts-with obj "-1\r\n")
+      (nil)
+      (string:join (cdr (strip-redis-strings obj)) #\newline))))
 
-  (decode-array (lambda (obj) "it does not do length-checking!"
-    (for-each (lambda (elem) (decode (++ elem REDIS-SEP)))
-              (cdr (strip-redis-strings obj))))))
+  (decode-array (lambda (obj)
+    (define (treat-array len elems acc)
+      (if (zero? len)
+        (list acc elems)
+        (let ((fst (car elems)))
+          (case (car fst)
+            ((#\$)
+              (let* ((l (string->number (cdr fst))))
+                (if (eq? l -1)
+                  (treat-array (sub1 len) (cdr elems) (++ acc (nil)))
+                  (treat-array (sub1 len) (cddr elems)
+                               (++ acc (decode (++ fst "\r\n"
+                                                   (cadr elems) "\r\n")))))))
+            ((#\*)
+              (let* ((l (string->number (cdr fst)))
+                     (a (treat-array l (cdr elems) [])))
+                (treat-array (sub1 len) (cadr a) (+= acc (car a)))))
+            (else
+              (treat-array (sub1 len) (cdr elems) (++ acc (decode fst))))))))
+    (let ((stripped (strip-redis-strings obj)))
+      (car (treat-array (string->number (car stripped))
+                        (cdr stripped)
+                        []))))))
